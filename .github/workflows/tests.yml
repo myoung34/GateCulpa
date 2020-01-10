@@ -1,0 +1,39 @@
+---
+name: Test
+
+on: push  # yamllint disable-line rule:truthy
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Setup python
+        uses: actions/setup-python@v1
+        with:
+          python-version: '3.7'
+          architecture: x64
+      - name: install pre-reqs
+        run: pip3 install yamllint && wget https://get.helm.sh/helm-${HELM_VERSION}-linux-amd64.tar.gz && tar zxf helm-${HELM_VERSION}-linux-amd64.tar.gz && mv linux-amd64/helm /usr/local/bin  # yamllint disable-line rule:line-length
+        env:
+          HELM_VERSION: v2.16.1
+      - name: yamllint
+        run: find . -name '*.yaml' -type f -not -path "./policies/constraints/templates*"  -exec yamllint {} \;  # yamllint disable-line rule:line-length
+      - name: helm lint
+        run: find policies -maxdepth 1 ! -path policies -type d -exec helm lint {} \;  # yamllint disable-line rule:line-length
+
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Setup python
+        uses: actions/setup-python@v1
+        with:
+          python-version: '3.7'
+          architecture: x64
+      - name: install pre-reqs
+        run: wget https://github.com/instrumenta/conftest/releases/download/v${CONFTEST_VERSION}/conftest_${CONFTEST_VERSION}_Linux_x86_64.tar.gz && tar xzf conftest_${CONFTEST_VERSION}_Linux_x86_64.tar.gz && mv conftest /usr/local/bin  # yamllint disable-line rule:line-length
+        env:
+          CONFTEST_VERSION: 0.16.0
+      - name: conftest
+        run: conftest verify

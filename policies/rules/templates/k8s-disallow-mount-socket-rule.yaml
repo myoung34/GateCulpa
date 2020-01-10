@@ -1,0 +1,11 @@
+---
+apiVersion: constraints.gatekeeper.sh/v1beta1
+kind: k8s-disallow-mount-socket
+metadata:
+  name: k8s-disallow-mount-socket
+spec:
+  enforcementAction: dryrun
+  match:
+    kinds:
+      - apiGroups: [""]
+        kinds: ["Pod"]

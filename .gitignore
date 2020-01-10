@@ -1,0 +1,6 @@
+policy/*.yaml
+
+# these are generated
+policies/constraints/templates/*.yaml
+*.sw[o-p]
+*.tgz

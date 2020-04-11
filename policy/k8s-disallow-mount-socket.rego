@@ -36,9 +36,8 @@ volumes[volume] {
 }
 
 
-# run these with dry run enabled.
-# there is no 'warning' yet in gatekeeper, and we dont want to break everything
-# https://github.com/open-policy-agent/gatekeeper/issues/382
+# We prefer to run these with dry run enabled. This prevents us from breaking production.
+# Instead we collect reports and circle-back later to decide how to enforce based on edge-cases.
 violation[{
   "msg": msg,
   "code": "DockerMountException"

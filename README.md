@@ -4,7 +4,7 @@ Gatekeeper (opa for k8s) policies
 ## Known Issues ##
 
   1. GateKeeper supports libraries, but the functionality isnt quite sync'd across conftest and gatekeeper in a stable branch. "Common" code is currently duplicated instead of putting it into `policy/lib/{name}.rego` and doing `import data.lib.common`
-  1. There is currently no "notify only" or "warning" behavior in GateKeeper. Im not a fan of preventing containers from running from the get-go, so currently the rules are set to 'dry-run' and run [sync.yaml](https://raw.githubusercontent.com/open-policy-agent/gatekeeper/master/demo/basic/sync.yaml) to get the following output. To get notified youll need to set up logging alerts or crawl your violations on a cron. See [this issue](https://github.com/open-policy-agent/gatekeeper/issues/382) to follow along with the future behavior
+  1. ~There is currently no "notify only" or "warning" behavior in GateKeeper. Im not a fan of preventing containers from running from the get-go, so currently the rules are set to 'dry-run' and run [sync.yaml](https://raw.githubusercontent.com/open-policy-agent/gatekeeper/master/demo/basic/sync.yaml) to get the following output. To get notified youll need to set up logging alerts or crawl your violations on a cron. See [this issue](https://github.com/open-policy-agent/gatekeeper/issues/382) to follow along with the future behavior~ No longer true from [this](https://github.com/open-policy-agent/gatekeeper/blob/46eeb19c454e212eeabcaf0b67395875eb4354f1/pkg/webhook/policy.go#L176)
 
 ```
 $ aws-vault exec home -- kubectl get k8s-disallow-mount-socket k8s-disallow-mount-socket -oyaml
